@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  release:
+    types: [published]
 
 permissions:
   contents: read
@@ -32,3 +34,12 @@ jobs:
       with:
         name: Build
         path: dist/*
+
+    # upload to pipy if release
+    - name: Publish package
+      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+      if: github.event_name == 'release' && github.event.action == 'published'
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+
