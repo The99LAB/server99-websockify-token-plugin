@@ -4,6 +4,8 @@ This plugin lookups the domain xml using the Libvirt api and gets the vnc port.
 
 # Usage
 See the [websockify wiki](https://github.com/novnc/websockify/wiki/Token-based-target-selection)
+- Use `pip install websockify-LibvirtDomain` to install the package
+- Start websockify with the `--token-plugin websockify_LibvirtDomain.LibvirtDomain` option
 - The `--token-source` option in Websockify can be used to specify a Libvirt Uri, without this option specified the uri is `qemu:///system`
 
 # Example Usage
