@@ -34,12 +34,19 @@ jobs:
       with:
         name: Build
         path: dist/*
-
-    # upload to pipy if release
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-      if: github.event_name == 'release' && github.event.action == 'published'
+      
+    - name: Zip package
+      if: github.event_name == 'release'
+      run: |
+        cd dist
+        zip -r server99-websockify-token-plugin-release.zip .
+        mv server99-websockify-token-plugin-release.zip ../
+    
+    - name: Upload to release
+      if: github.event_name == 'release'
+      uses: svenstaro/upload-release-action@2.9.0
       with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
-
+        repo_token: ${{ secrets.TOKEN }}
+        file: server99-websockify-token-plugin-release.zip
+        tag: ${{ github.ref }}
+        file_glob: true
